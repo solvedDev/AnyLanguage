@@ -1,4 +1,4 @@
-function download(filename, text) {
+async function download(filename, text) {
 	var element = document.createElement('a');
 	element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
 	element.setAttribute('download', filename);
@@ -9,6 +9,27 @@ function download(filename, text) {
 	element.click();
 	
 	document.body.removeChild(element);
+}
+
+async function translate(sText, sL, tL) {
+	var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + sL + "&tl=" + tL + "&dt=t&q=" + encodeURI(sText);
+	var text = "";
+
+	await $.ajax({
+		url: url,
+		dataType: "text"
+	  })
+	  .done(function(data) {
+		  data = JSON.parse(data.replace(/,+/g, ","));
+		  console.log(data);
+
+		  for(var i = 0; i < data[0].length; i++ ) {
+			text += data[0][i][0];
+		  }
+		  console.log(text);
+	  });
+	
+	return text;
 }
 
 var languages = [

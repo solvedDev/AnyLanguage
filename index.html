@@ -4,16 +4,20 @@
 	<meta charset="UTF-8">
 	<title>AnyLanguage</title>
 	<link rel="stylesheet" href="styles/main.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 	<h1>AnyLanguage</h1>
 
 	<div class="main">
-		<textarea name="Language Input" id="lang-text" cols="60" rows="10"></textarea>
-		<textarea name="Support Languages" id="lang-input" cols="20" rows="10"></textarea>
+		<textarea name="Language Input" id="lang-text-key" cols="30" rows="10"></textarea>
+		<span class="equals">=</span>
+		<textarea name="Language Input" id="lang-text" cols="30" rows="10"></textarea>
+		<textarea name="Support Languages" id="lang-input" cols="15" rows="10"></textarea>
 		<textarea name="Language Names" id="lang-name-input" cols="40" rows="10"></textarea>
 		<br>
-
+		<input type="checkbox" name="auto-translate" id="auto-translate">
+		<label for="auto-translate">Auto Translation</label>
 		<button id="download">
 			<p>Download</p>
 		</button>
@@ -24,6 +28,10 @@
 	<script>
 		document.getElementById("download").onclick = function() {
 			downloadAll();
+		}
+
+		langNameInput.onscroll = function() {
+			langInput.scrollTop = langNameInput.scrollTop;
 		}
 
 		langInput.value = JSON.stringify(languages, null, "  ");

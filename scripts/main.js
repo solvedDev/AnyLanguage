@@ -2,21 +2,23 @@ var translateText = "";
 var langInput = document.getElementById("lang-input");
 var langNameInput = document.getElementById("lang-name-input");
 var langText = document.getElementById("lang-text");
+var langTextKey = document.getElementById("lang-text-key");
+var checkbox = document.getElementById("auto-translate");
 
-function downloadAll() {
-	translateText = langText.value;
-
+async function downloadAll() {
 	for(var i = 0; i < languages.length; i++) {
-		download(languages[i] + ".lang", translateText)
+		translateText = "";
+		await combineKeyTranslation(languages[i][0]+languages[i][1]);
+		await download(languages[i] + ".lang", translateText)
 	}
 
 	languages = JSON.parse(langInput.value);
-	download("languages.json", JSON.stringify(languages, null, "\t"));
+	await download("languages.json", JSON.stringify(languages, null, "\t"));
 	languageNames = JSON.parse(langNameInput.value);
-	download("language_names.json", JSON.stringify(createLanguageNames(), null, "\t"));
+	await download("language_names.json", JSON.stringify(await createLanguageNames(), null, "\t"));
 }
 
-function createLanguageNames() {
+async function createLanguageNames() {
 	var _tmp = [];
 
 	for (var i = 0; i < languages.length; i++) {
@@ -24,4 +26,18 @@ function createLanguageNames() {
 	}
 
 	return _tmp;
+}
+
+async function combineKeyTranslation(lang) {
+	var _tmp1 = langTextKey.value.split("\n");
+	var _tmp2 = langText.value.split("\n");
+
+	for(var i = 0; i < _tmp1.length; i++) {
+		if(checkbox.checked) {
+			translateText += _tmp1[i] + "=" + await translate(_tmp2[i], "auto", lang ) + "\n";
+		}
+		else {
+			translateText += _tmp1[i] + "=" + _tmp2[i] + "\n";
+		}
+	}
 }

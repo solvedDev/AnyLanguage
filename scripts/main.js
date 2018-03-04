@@ -6,15 +6,16 @@ var langTextKey = document.getElementById("lang-text-key");
 var checkbox = document.getElementById("auto-translate");
 
 async function downloadAll() {
+	languages = JSON.parse(langInput.value);
+	languageNames = JSON.parse(langNameInput.value);
+
 	for(var i = 0; i < languages.length; i++) {
 		translateText = "";
 		await combineKeyTranslation(languages[i][0]+languages[i][1]);
 		await download(languages[i] + ".lang", translateText)
 	}
 
-	languages = JSON.parse(langInput.value);
 	await download("languages.json", JSON.stringify(languages, null, "\t"));
-	languageNames = JSON.parse(langNameInput.value);
 	await download("language_names.json", JSON.stringify(await createLanguageNames(), null, "\t"));
 }
 

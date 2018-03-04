@@ -22,6 +22,7 @@ h1 {
 
 div.main {
 	text-align: center;
+	display:inline-block;
 }
 
 label {
@@ -89,6 +90,10 @@ textarea#lang-input {
 }
 textarea#lang-text-key {
 	overflow: hidden;
+}
+textarea#lang-text, textarea#lang-text-key  {
+	overflow-x: scroll;
+	white-space: nowrap;
 }
 textarea {
 	color: #404252;

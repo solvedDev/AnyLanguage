@@ -87,6 +87,9 @@ button#parse-json i {
 textarea#lang-input {
 	overflow: hidden;
 }
+textarea#lang-text-key {
+	overflow: hidden;
+}
 textarea {
 	color: #404252;
 	resize: none;

@@ -17,7 +17,7 @@
 		<textarea name="Language Names" id="lang-name-input" cols="40" rows="10"></textarea>
 		<br>
 		<input type="checkbox" name="auto-translate" id="auto-translate">
-		<label for="auto-translate">Auto Translation</label>
+		<label for="auto-translate">translate</label>
 		<button id="download">
 			<p>Download</p>
 		</button>
@@ -32,6 +32,9 @@
 
 		langNameInput.onscroll = function() {
 			langInput.scrollTop = langNameInput.scrollTop;
+		}
+		langText.onscroll = function() {
+			langTextKey.scrollTop = langText.scrollTop;
 		}
 
 		langInput.value = JSON.stringify(languages, null, "  ");

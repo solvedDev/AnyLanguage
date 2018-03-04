@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>AnyLanguage</title>
+	<link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+	<h1>AnyLanguage</h1>
+
+	<div class="main">
+		<textarea name="Language Input" id="lang-text" cols="60" rows="10"></textarea>
+		<textarea name="Support Languages" id="lang-input" cols="20" rows="10"></textarea>
+		<textarea name="Language Names" id="lang-name-input" cols="40" rows="10"></textarea>
+		<br>
+
+		<button id="download">
+			<p>Download</p>
+		</button>
+	</div>
+
+	<script src="scripts/utilities.js"></script>
+	<script src="scripts/main.js"></script>
+	<script>
+		document.getElementById("download").onclick = function() {
+			downloadAll();
+		}
+
+		langInput.value = JSON.stringify(languages, null, "  ");
+		langNameInput.value = JSON.stringify(languageNames, null, "  ");
+	</script>
+</body>
+</html>

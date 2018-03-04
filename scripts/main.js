@@ -1,9 +1,13 @@
 var translateText = "";
+
+var targetLangDiv = document.getElementById("edit-langs"); 
 var langInput = document.getElementById("lang-input");
 var langNameInput = document.getElementById("lang-name-input");
 var langText = document.getElementById("lang-text");
 var langTextKey = document.getElementById("lang-text-key");
-var checkbox = document.getElementById("auto-translate");
+var checkboxTranslate = document.getElementById("auto-translate");
+var checkboxTargetLangs = document.getElementById("target-langs");
+var progress_state = document.getElementById("progress");
 
 async function downloadAll() {
 	languages = JSON.parse(langInput.value);
@@ -25,7 +29,7 @@ async function createLanguageNames() {
 	for (var i = 0; i < languages.length; i++) {
 		_tmp[i] = [ languages[i], languageNames[i] ]; 
 	}
-
+	
 	return _tmp;
 }
 
@@ -34,11 +38,38 @@ async function combineKeyTranslation(lang) {
 	var _tmp2 = langText.value.split("\n");
 
 	for(var i = 0; i < _tmp1.length; i++) {
-		if(checkbox.checked) {
-			translateText += _tmp1[i] + "=" + await translate(_tmp2[i], "auto", lang ) + "\n";
+		if(checkboxTranslate.checked) {
+			if(_tmp1 != "" && _tmp2 != "") translateText += _tmp1[i] + "=" + await translate(_tmp2[i], "auto", lang ) + "\n";
 		}
 		else {
-			translateText += _tmp1[i] + "=" + _tmp2[i] + "\n";
+			if(_tmp1 != "" && _tmp2 != "") translateText += _tmp1[i] + "=" + _tmp2[i] + "\n";
 		}
 	}
+}
+
+function loadFile(file) {
+	var reader = new FileReader();
+	//Reading file
+	reader.readAsText(file);
+	reader.onprogress = function(progress) {
+		progress_state.value = progress.loaded/progress.total;
+	}
+	reader.onload = function() {
+		var _text = reader.result;
+		var _lines = _text.split("\n");
+		var _keys = "";
+		var _langText = "";
+		console.log(_lines);
+
+		for(var i = 0; i < _lines.length; i++) {
+			var _tmp = _lines[i].split("=");
+			if(_tmp[0][0] != "#") {
+				_keys += _tmp[0] + "\n";
+				_langText += _tmp[1] + "\n";
+			}
+		}
+
+		langTextKey.value = _keys;
+		langText.value = _langText;
+	};
 }

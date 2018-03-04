@@ -1,3 +1,9 @@
+var zip = new JSZip();
+
+function addToZip(filename, text) {
+	zip.file(filename, text);
+}
+
 async function download(filename, text) {
 	var element = document.createElement('a');
 	element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));

@@ -6,12 +6,13 @@
 	<link rel="stylesheet" href="styles/main.css">
 	<link rel="shortcut icon" type="image/x-icon" href="imgs/icon.png">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.js"></script>
+	<script src="scripts/FileSaver.js"></script>
 </head>
 <body>
 	<h1>AnyLanguage</h1>
 	<label for="import">import .lang file</label>
 	<input type="file" name="import" id="import">
-	<span id="progress"></span>
 	<br>
 	<br>
 	<div class="main">
@@ -39,11 +40,13 @@
 		<button id="download">
 			<p>Download</p>
 		</button>
+		<span id="progress">Progress: 0%</span>
 	</div>
 
 	<script src="scripts/utilities.js"></script>
 	<script src="scripts/main.js"></script>
 	<script>
+		progress_state.style.display = "none";
 		var hoverText = true;
 
 		document.getElementById("download").onclick = function() {

@@ -10,17 +10,26 @@ var checkboxTargetLangs = document.getElementById("target-langs");
 var progress_state = document.getElementById("progress");
 
 async function downloadAll() {
+	progress_state.style.display = "inline";
 	languages = JSON.parse(langInput.value);
 	languageNames = JSON.parse(langNameInput.value);
 
 	for(var i = 0; i < languages.length; i++) {
-		translateText = "";
 		await combineKeyTranslation(languages[i][0]+languages[i][1]);
-		await download(languages[i] + ".lang", translateText)
+		addToZip(languages[i] + ".lang", translateText);
+		console.log(i/languages.length);
+		$("#progress").text( "Progress: " + Math.round(i/languages.length * 100) + "%");
 	}
 
-	await download("languages.json", JSON.stringify(languages, null, "\t"));
-	await download("language_names.json", JSON.stringify(await createLanguageNames(), null, "\t"));
+	await addToZip("languages.json", JSON.stringify(languages, null, "\t"));
+	await addToZip("language_names.json", JSON.stringify(await createLanguageNames(), null, "\t"));
+
+	zip.generateAsync({type:"blob"})
+		.then(function(content) {
+			saveAs(content, "texts.zip");
+			progress_state.style.display = "none";
+		});
+	
 }
 
 async function createLanguageNames() {
@@ -34,6 +43,7 @@ async function createLanguageNames() {
 }
 
 async function combineKeyTranslation(lang) {
+	translateText = "";
 	var _tmp1 = langTextKey.value.split("\n");
 	var _tmp2 = langText.value.split("\n");
 
@@ -43,7 +53,7 @@ async function combineKeyTranslation(lang) {
 				translateText += _tmp1[i] + "=" + await translate(_tmp2[i], "auto", lang ) + "\n";
 			} 
 			else {
-				translateText += "\n";
+				if(i+1 != _tmp1.length) translateText += "\n";
 			}
 		}
 		else {
@@ -51,7 +61,7 @@ async function combineKeyTranslation(lang) {
 				translateText += _tmp1[i] + "=" + _tmp2[i] + "\n";
 			}
 			else {
-				translateText += "\n";
+				if(i+1 != _tmp1.length) translateText += "\n";
 			}
 		}
 	}
@@ -61,9 +71,6 @@ function loadFile(file) {
 	var reader = new FileReader();
 	//Reading file
 	reader.readAsText(file);
-	reader.onprogress = function(progress) {
-		progress_state.value = progress.loaded/progress.total;
-	}
 	reader.onload = function() {
 		var _text = reader.result;
 		var _lines = _text.split("\n");
@@ -74,7 +81,12 @@ function loadFile(file) {
 			var _tmp = _lines[i].split("=");
 			if(_tmp[0][0] != "#") {
 				_keys += _tmp[0] + "\n";
-				_langText += _tmp[1] + "\n";
+				if(_tmp[1]) {
+					_langText += _tmp[1] + "\n";
+				}
+				else {
+					_langText += "\n";
+				}
 			}
 		}
 

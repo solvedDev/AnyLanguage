@@ -10,3 +10,7 @@ AnyLanguage can automatically translate your text into the languages you select.
 
 ## Why?!
 The only way to rename items on Minecraft Bedrock with addons is currently by changing the translation files. In order to support all languages, you need to edit every single .lang file. Sometimes you also want to rename an entity which causes the same amount of work. This generator can do this nasty work for you.
+
+## Technologies used:
+JSZip: https://stuk.github.io/jszip/
+FileSaver.js: https://github.com/eligrey/FileSaver.js/

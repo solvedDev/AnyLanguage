@@ -7,18 +7,17 @@ var langText = document.getElementById("lang-text");
 var langTextKey = document.getElementById("lang-text-key");
 var checkboxTranslate = document.getElementById("auto-translate");
 var checkboxTargetLangs = document.getElementById("target-langs");
-var progress_state = document.getElementById("progress");
+var progress_state = $("#progress");
 
 async function downloadAll() {
-	progress_state.style.display = "inline";
+	progress_state.show();
 	languages = JSON.parse(langInput.value);
 	languageNames = JSON.parse(langNameInput.value);
 
 	for(var i = 0; i < languages.length; i++) {
 		await combineKeyTranslation(languages[i][0]+languages[i][1]);
 		addToZip(languages[i] + ".lang", translateText);
-		console.log(i/languages.length);
-		$("#progress").text( "Progress: " + Math.round(i/languages.length * 100) + "%");
+		progress_state.text( "Progress: " + Math.round(i/languages.length * 100) + "%");
 	}
 
 	await addToZip("languages.json", JSON.stringify(languages, null, "\t"));
@@ -27,7 +26,7 @@ async function downloadAll() {
 	zip.generateAsync({type:"blob"})
 		.then(function(content) {
 			saveAs(content, "texts.zip");
-			progress_state.style.display = "none";
+			progress_state.hide();
 		});
 	
 }

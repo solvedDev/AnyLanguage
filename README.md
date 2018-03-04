@@ -13,4 +13,5 @@ The only way to rename items on Minecraft Bedrock with addons is currently by ch
 
 ## Technologies used:
 JSZip: https://stuk.github.io/jszip/
+
 FileSaver.js: https://github.com/eligrey/FileSaver.js/

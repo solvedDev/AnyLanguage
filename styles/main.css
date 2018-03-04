@@ -85,11 +85,11 @@ button#parse-json i {
 	display: none;
 }
 
-textarea#lang-input {
-	overflow: hidden;
+#lang-input::-webkit-scrollbar, #lang-input::-webkit-scrollbar-track, #lang-input::-webkit-scrollbar-thumb {
+	display: none;
 }
-textarea#lang-text-key {
-	overflow: hidden;
+#lang-text-key::-webkit-scrollbar, #lang-text-key::-webkit-scrollbar-track, #lang-text-key::-webkit-scrollbar-thumb {
+	display: none;
 }
 textarea#lang-text, textarea#lang-text-key  {
 	overflow-x: scroll;

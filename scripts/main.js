@@ -39,10 +39,20 @@ async function combineKeyTranslation(lang) {
 
 	for(var i = 0; i < _tmp1.length; i++) {
 		if(checkboxTranslate.checked) {
-			if(_tmp1[i] != "" && _tmp2[i] != "") translateText += _tmp1[i] + "=" + await translate(_tmp2[i], "auto", lang ) + "\n";
+			if(_tmp1[i] != "" && _tmp2[i] != "") {
+				translateText += _tmp1[i] + "=" + await translate(_tmp2[i], "auto", lang ) + "\n";
+			} 
+			else {
+				translateText += "\n";
+			}
 		}
 		else {
-			if(_tmp1[i] != "" && _tmp2[i] != "") translateText += _tmp1[i] + "=" + _tmp2[i] + "\n";
+			if(_tmp1[i] != "" && _tmp2[i] != "") {
+				translateText += _tmp1[i] + "=" + _tmp2[i] + "\n";
+			}
+			else {
+				translateText += "\n";
+			}
 		}
 	}
 }

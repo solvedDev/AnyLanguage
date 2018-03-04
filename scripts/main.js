@@ -39,10 +39,10 @@ async function combineKeyTranslation(lang) {
 
 	for(var i = 0; i < _tmp1.length; i++) {
 		if(checkboxTranslate.checked) {
-			if(_tmp1 != "" && _tmp2 != "") translateText += _tmp1[i] + "=" + await translate(_tmp2[i], "auto", lang ) + "\n";
+			if(_tmp1[i] != "" && _tmp2[i] != "") translateText += _tmp1[i] + "=" + await translate(_tmp2[i], "auto", lang ) + "\n";
 		}
 		else {
-			if(_tmp1 != "" && _tmp2 != "") translateText += _tmp1[i] + "=" + _tmp2[i] + "\n";
+			if(_tmp1[i] != "" && _tmp2[i] != "") translateText += _tmp1[i] + "=" + _tmp2[i] + "\n";
 		}
 	}
 }
@@ -59,7 +59,6 @@ function loadFile(file) {
 		var _lines = _text.split("\n");
 		var _keys = "";
 		var _langText = "";
-		console.log(_lines);
 
 		for(var i = 0; i < _lines.length; i++) {
 			var _tmp = _lines[i].split("=");

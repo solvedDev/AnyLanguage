@@ -21,12 +21,10 @@ async function translate(sText, sL, tL) {
 	  })
 	  .done(function(data) {
 		  data = JSON.parse(data.replace(/,+/g, ","));
-		  console.log(data);
 
 		  for(var i = 0; i < data[0].length; i++ ) {
 			text += data[0][i][0];
 		  }
-		  console.log(text);
 	  });
 	
 	return text;

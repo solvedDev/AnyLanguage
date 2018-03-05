@@ -18,7 +18,7 @@ async function download(filename, text) {
 }
 
 async function translate(sText, sL, tL) {
-	var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + sL + "&tl=" + tL + "&dt=t&q=" + encodeURI(sText);
+	var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + sL + "&tl=" + tL + "&dt=t&q=" + encodeURIComponent(sText);
 	var text = "";
 
 	await $.ajax({
@@ -34,6 +34,25 @@ async function translate(sText, sL, tL) {
 	  });
 	
 	return text;
+}
+
+class Package {
+	constructor(pText) {
+		this._text = pText;
+		this._translation = "";
+		this.translate = async function (sL, tL) {
+			this._translation = await translate(this._text, sL, tL);
+		}
+	}
+}
+
+Array.prototype.getTotalLength = function(pFrom, pTo) {
+	var _length = 0;
+	for(var i = pFrom; i < pTo; i++) {
+		_length += this[i].length
+	}
+
+	return _length;
 }
 
 var languages = [
@@ -98,4 +117,4 @@ var languageNames = [
 	"Svenska (Sverige)",
 	"Türkçe (Türkiye)",
 	"Українська (Україна)"
-  ]
+]

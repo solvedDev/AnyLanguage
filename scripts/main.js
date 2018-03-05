@@ -28,8 +28,10 @@ async function downloadAll() {
 		progress_state.text( "Progress: " + Math.round(i/languages.length * 100) + "%");
 	}
 
+	setStatus("Adding language defintions...", true);
 	await addToZip("languages.json", JSON.stringify(languages, null, "\t"));
 	await addToZip("language_names.json", JSON.stringify(await createLanguageNames(), null, "\t"));
+	
 	setStatus("Download!", true);
 	zip.generateAsync({type:"blob"})
 		.then(function(content) {

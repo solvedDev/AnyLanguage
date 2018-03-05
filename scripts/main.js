@@ -31,7 +31,7 @@ async function downloadAll() {
 	setStatus("Adding language defintions...", true);
 	await addToZip("languages.json", JSON.stringify(languages, null, "\t"));
 	await addToZip("language_names.json", JSON.stringify(await createLanguageNames(), null, "\t"));
-	
+
 	setStatus("Download!", true);
 	zip.generateAsync({type:"blob"})
 		.then(function(content) {
@@ -92,7 +92,7 @@ async function createPackages(pLines) {
 	}
 	let _tmp = pLines.slice(lastPackageIndex, i);
 	packages.push(new Package(_tmp.join("\n")));
-	console.log(packages)
+
 	return packages;
 }
 

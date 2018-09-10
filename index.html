@@ -10,39 +10,44 @@
 	<script src="scripts/FileSaver.js"></script>
 </head>
 <body>
-	<h1>AnyLanguage</h1>
-	<label for="import">import .lang file</label>
-	<input type="file" name="import" id="import">
-	<br>
-	<br>
-	<div class="main">
-		<div class="edit-area">
-			<textarea name="Language Input" id="lang-text-key" cols="80" rows="20" placeholder="e.g. action.interact.milk ..."></textarea>
-			<span class="equals">=</span>
-			<textarea name="Language Input" id="lang-text" cols="80" rows="20" placeholder="Milk"></textarea>
-		</div>
+	<nav>
+		<!-- <img class="home" src="imgs/home.svg" alt="Home"> -->
+		AnyLanguage
+	</nav>
+	<div class="main-page">
+		<label for="import">import .lang file</label>
+		<input type="file" name="import" id="import">
 		<br>
 		<br>
-		<input type="checkbox" name="target-langs" id="target-langs">
-		<label for="target-langs">show target languages</label>
-		<br>
-		<br>
-		<div id="edit-langs">
-			<h2>Target Languages</h2>
+		<div class="main">
+			<div class="edit-area">
+				<textarea name="Language Input" id="lang-text-key" cols="60" rows="20" placeholder="e.g. action.interact.milk ..."></textarea>
+				<textarea name="Language Input" id="lang-text" cols="60" rows="20" placeholder="Milk"></textarea>
+			</div>
 			<br>
-			<textarea name="Support Languages" id="lang-input" cols="15" rows="10"></textarea>
-			<textarea name="Language Names" id="lang-name-input" cols="40" rows="10"></textarea>
 			<br>
-		</div>
+			<input type="checkbox" name="target-langs" id="target-langs">
+			<label for="target-langs">show target languages</label>
+			<br>
+			<br>
+			<div id="edit-langs">
+				<h2>Target Languages</h2>
+				<br>
+				<textarea name="Support Languages" id="lang-input" cols="15" rows="10"></textarea>
+				<textarea name="Language Names" id="lang-name-input" cols="40" rows="10"></textarea>
+				<br>
+			</div>
 
-		<input type="checkbox" name="auto-translate" id="auto-translate">
-		<label for="auto-translate">translate</label>
-		<button id="download">
-			<p>Download</p>
-		</button>
-		<span id="progress">Progress: 0%</span>
-		<span id="status">Status: </span>
+			<input type="checkbox" name="auto-translate" id="auto-translate">
+			<label for="auto-translate">translate</label>
+			<button id="download">
+				<p>Download</p>
+			</button>
+			<span id="progress">Progress: 0%</span>
+			<span id="status">Status: </span>
+		</div>
 	</div>
+	
 
 	<script src="scripts/utilities.js"></script>
 	<script src="scripts/main.js"></script>

@@ -162,3 +162,6 @@ a:visited, a:hover, a:active, a {
 #edit-langs {
 	display: none;
 }
+#progress, #status {
+	color: royalblue;
+}

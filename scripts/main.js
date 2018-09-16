@@ -6,9 +6,17 @@ var langNameInput = document.getElementById("lang-name-input");
 var langText = document.getElementById("lang-text");
 var langTextKey = document.getElementById("lang-text-key");
 var checkboxTranslate = document.getElementById("auto-translate");
+var checkboxVanillaTranslate = document.getElementById("vanilla-translate");
 var checkboxTargetLangs = document.getElementById("target-langs");
 var progress_state = $("#progress");
 var status_span = $("#status");
+
+checkboxVanillaTranslate.onchange = function() {
+	if(checkboxTranslate.checked && checkboxVanillaTranslate.checked) checkboxTranslate.click();
+}
+checkboxTranslate.onchange = function() {
+	if(checkboxTranslate.checked && checkboxVanillaTranslate.checked) checkboxVanillaTranslate.click();
+}
 
 async function downloadAll() {
 	progress_state.show();
@@ -23,7 +31,7 @@ async function downloadAll() {
 	}
 
 	for(var i = 0; i < languages.length; i++) {
-		await combineKeyTranslation(_packages, languages[i][0]+languages[i][1]);
+		await combineKeyTranslation(_packages, languages[i], languages[i][0]+languages[i][1]);
 		addToZip(languages[i] + ".lang", translateText);
 		progress_state.text( "Progress: " + Math.round(i/languages.length * 100) + "%");
 	}
@@ -33,7 +41,7 @@ async function downloadAll() {
 	await addToZip("language_names.json", JSON.stringify(await createLanguageNames(), null, "\t"));
 
 	setStatus("Download!", true);
-	zip.generateAsync({type:"blob"})
+	zip.generateAsync({ type:"blob" })
 		.then(function(content) {
 			saveAs(content, "texts.zip");
 			progress_state.hide();
@@ -52,7 +60,7 @@ async function createLanguageNames() {
 	return _tmp;
 }
 
-async function combineKeyTranslation(pPackages, lang) {
+async function combineKeyTranslation(pPackages, mineLang, gLang) {
 	translateText = "";
 	var _keys = langTextKey.value.split("\n");
 	if(checkboxTranslate.checked) {
@@ -60,11 +68,18 @@ async function combineKeyTranslation(pPackages, lang) {
 		//var _tmp2 = await translate(langText.value, "auto", lang);
 		//_tmp2 = _tmp2.split("\n");
 
-		await translatePackages(pPackages, "auto", lang);
+		await translatePackages(pPackages, "auto", gLang);
 		var _textLines = await joinPackages(pPackages);
 		_textLines = _textLines.split("\n");
 	}
-	else {
+	else if(checkboxVanillaTranslate.checked) {
+		var _textLines = langText.value.split("\n");
+
+		for(let i = 0; i < _textLines.length; i++) {
+			_textLines[i] = vanillaLangTranslate(_textLines[i], "en_US", mineLang);
+		}
+		await Promise.all(_textLines).then(res => _textLines = res);
+	} else {
 		var _textLines = langText.value.split("\n");
 	}
 	
@@ -97,10 +112,12 @@ async function createPackages(pLines) {
 }
 
 async function translatePackages(pPackages, sL, tL) {
+	let _promises = [];
 	for(var i = 0; i < pPackages.length; i++) {
 		setStatus("Translating package " + i + "/" + pPackages.length + "...", true);
-		await pPackages[i].translate(sL, tL);
+		_promises.push(pPackages[i].translate(sL, tL));
 	}
+	await Promise.all(_promises);
 }
 
 async function joinPackages(pPackages) {

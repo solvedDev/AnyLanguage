@@ -1,4 +1,11 @@
 var zip = new JSZip();
+var cache = {};
+
+async function cachedFetch(url) {
+	if(url in cache) return cache[url];
+	cache[url] = await fetch(url).then(res => res.text());
+	return cache[url];
+}
 
 function addToZip(filename, text) {
 	zip.file(filename, text);
@@ -15,6 +22,18 @@ async function download(filename, text) {
 	element.click();
 	
 	document.body.removeChild(element);
+}
+
+async function vanillaLangTranslate(sText, sL, tL) {
+	let ref = await cachedFetch(`https://solveddev.github.io/JSON-Editor-Data/data/RP/texts/${sL}.lang`);
+
+	if(ref.replace(/\t|#/g, "").includes(`=${sText}\n`)) {
+		let key = ref.split(`=${sText}\n`)[0].split("\n").pop();
+		let target = await cachedFetch(`https://solveddev.github.io/JSON-Editor-Data/data/RP/texts/${tL}.lang`);
+		let tText = target.split(`\n${key}=`).pop().split("\n").shift();
+		if(tText == undefined) console.warn(`Unable to find translations for "${sText}" (lang: ${sL}) in lang ${tL}`); 
+		return tText;
+	}
 }
 
 async function translate(sText, sL, tL) {

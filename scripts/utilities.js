@@ -33,6 +33,8 @@ async function vanillaLangTranslate(sText, sL, tL) {
 		let tText = target.split(`\n${key}=`).pop().split("\n").shift();
 		if(tText == undefined) console.warn(`Unable to find translations for "${sText}" (lang: ${sL}) in lang ${tL}`); 
 		return tText;
+	} else {
+		return sText;
 	}
 }
 
